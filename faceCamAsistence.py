@@ -66,7 +66,7 @@ def detectar_rostro():
     if archivo.filename == '':
         return jsonify({'mensaje': 'No se proporcionó un nombre de archivo.'})
     nombre_archivo = archivo.filename
-    app.config['UPLOAD_FOLDER'] = '/home/CapitanNemo/mysite/uploads'
+    app.config['UPLOAD_FOLDER'] = 'uploads'
     archivo_guardado = os.path.join(app.config['UPLOAD_FOLDER'], nombre_archivo)
     archivo.save(archivo_guardado)
 
@@ -74,13 +74,13 @@ def detectar_rostro():
     if imagen is not None and imagen.shape[0] > 0 and imagen.shape[1] > 0:
         #INITIALIZE
         facenet = FaceNet()
-        faces_embeddings = np.load('/home/CapitanNemo/mysite/face_embeddings_done4classes.npz')
+        faces_embeddings = np.load('face_embeddings_done4classes.npz')
         Y = faces_embeddings['arr_1']
         nose = faces_embeddings['arr_0']
         encoder = LabelEncoder()
         encoder.fit(Y)
-        haarcascade = cv.CascadeClassifier('/home/CapitanNemo/mysite/haarcascade_frontalface_default.xml')
-        model = pickle.load(open('/home/CapitanNemo/mysite/svm_model_160x160.pkl', 'rb'))
+        haarcascade = cv.CascadeClassifier('haarcascade_frontalface_default.xml')
+        model = pickle.load(open('svm_model_160x160.pkl', 'rb'))
 
         #se carga la imagen y se convierte a escala de grises
         image = cv.imread(archivo_guardado)
@@ -120,7 +120,7 @@ def detectar_rostro():
             markAttendance(final_name)
 
 
-        return jsonify({'mensaje': 'El rostro ha sido detectado correctamente', 'imagen': nombre_archivo})
+        return jsonify({'mensaje': 'El rostro ha sido detectado correctamente: puede ver el informe', 'imagen': nombre_archivo})
         #image = open(archivo_guardado, 'rb')
         #return send_file(image, mimetype='image/png')
     else:
