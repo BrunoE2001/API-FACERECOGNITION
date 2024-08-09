@@ -13,7 +13,7 @@ from flask import Flask, render_template, request, jsonify, send_file
 #con su respectiva fecha y hora
 def markAttendance(name):
     # Abrimos el archivo en modo lectura y escritura
-    with open('/home/CapitanNemo/mysite/data.csv', 'r+') as h:
+    with open('data.csv', 'r+') as h:
         # Leemos la informacion
         data = h.readline()
         # Creamos lista de nombres
@@ -115,7 +115,7 @@ def detectar_rostro():
                 final_name = "desconocido"
                 cv.rectangle(image, (x,y), (x+w,y+h), (255,0,255), 2)
                 cv.putText(image, str(final_name), (x,y-10), cv.FONT_HERSHEY_SIMPLEX,
-                           0.9, (0,255,255), 2, cv.LINE_AA)
+                        0.9, (0,255,255), 2, cv.LINE_AA)
 
             markAttendance(final_name)
 
